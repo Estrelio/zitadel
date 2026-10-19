@@ -15,8 +15,8 @@ export const ThemeWrapper = ({ children, branding }: Props) => {
   const { setTheme: setNextTheme } = useTheme();
 
   useEffect(() => {
-    setTheme(document, branding);
-  }, [branding]);
+    setTheme(document);
+  }, []);
 
   // Apply custom font from branding settings before paint to avoid FOUC.
   // When a custom font is uploaded via the label/branding policy, fontUrl

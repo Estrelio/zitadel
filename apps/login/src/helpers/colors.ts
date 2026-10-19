@@ -1,4 +1,3 @@
-import { BrandingSettings } from "@zitadel/proto/zitadel/settings/v2/branding_settings_pb";
 import tinycolor from "tinycolor2";
 
 export interface Color {
@@ -30,14 +29,16 @@ export type ColorMap = {
   [_key in MapName]: Color[];
 };
 
-export const DARK_PRIMARY = "#eeeeee";
-export const PRIMARY = "#5469d4";
+// GoVeggie product colours, from go-veggie-dashboard's theme tokens. Text on primary uses the dashboard's dark ink.
+export const DARK_PRIMARY = "#6ABF4B";
+export const PRIMARY = "#6ABF4B";
+export const PRIMARY_CONTRAST = "#231F20";
 
 export const DARK_WARN = "#ff3b5b";
 export const WARN = "#cd3d56";
 
-export const DARK_BACKGROUND = "#252526";
-export const BACKGROUND = "#fafafa";
+export const DARK_BACKGROUND = "#000000";
+export const BACKGROUND = "#F2F5F6";
 
 export const DARK_TEXT = "#ffffff";
 export const TEXT = "#000000";
@@ -68,24 +69,25 @@ type BrandingColors = {
   };
 };
 
-export function setTheme(document: any, policy?: BrandingSettings) {
-  const lP: BrandingColors = {
-    lightTheme: {
-      backgroundColor: policy?.lightTheme?.backgroundColor || BACKGROUND,
-      fontColor: policy?.lightTheme?.fontColor || TEXT,
-      primaryColor: policy?.lightTheme?.primaryColor || PRIMARY,
-      warnColor: policy?.lightTheme?.warnColor || WARN,
-    },
-    darkTheme: {
-      backgroundColor: policy?.darkTheme?.backgroundColor || DARK_BACKGROUND,
-      fontColor: policy?.darkTheme?.fontColor || DARK_TEXT,
-      primaryColor: policy?.darkTheme?.primaryColor || DARK_PRIMARY,
-      warnColor: policy?.darkTheme?.warnColor || DARK_WARN,
-    },
-  };
+// The login always uses GoVeggie's colours. The instance's branding policy colours are not applied.
+const GOVEGGIE_THEME: BrandingColors = {
+  lightTheme: {
+    backgroundColor: BACKGROUND,
+    fontColor: TEXT,
+    primaryColor: PRIMARY,
+    warnColor: WARN,
+  },
+  darkTheme: {
+    backgroundColor: DARK_BACKGROUND,
+    fontColor: DARK_TEXT,
+    primaryColor: DARK_PRIMARY,
+    warnColor: DARK_WARN,
+  },
+};
 
-  const dark = computeMap(lP, true);
-  const light = computeMap(lP, false);
+export function setTheme(document: any) {
+  const dark = computeMap(GOVEGGIE_THEME, true);
+  const light = computeMap(GOVEGGIE_THEME, false);
 
   setColorShades(dark.background, "background", "dark", document);
   setColorShades(light.background, "background", "light", document);
@@ -157,10 +159,15 @@ function getContrast(color: string): string {
   }
 }
 
+// Primary buttons put the dashboard's dark ink on the green instead of the contrast-picked black or white.
+function computePrimaryColors(hex: string): Color[] {
+  return computeColors(hex).map((color) => ({ ...color, contrastColor: PRIMARY_CONTRAST }));
+}
+
 export function computeMap(branding: BrandingColors, dark: boolean): ColorMap {
   return {
     background: computeColors(dark ? branding.darkTheme.backgroundColor : branding.lightTheme.backgroundColor),
-    primary: computeColors(dark ? branding.darkTheme.primaryColor : branding.lightTheme.primaryColor),
+    primary: computePrimaryColors(dark ? branding.darkTheme.primaryColor : branding.lightTheme.primaryColor),
     warn: computeColors(dark ? branding.darkTheme.warnColor : branding.lightTheme.warnColor),
     text: computeColors(dark ? branding.darkTheme.fontColor : branding.lightTheme.fontColor),
     link: computeColors(dark ? branding.darkTheme.fontColor : branding.lightTheme.fontColor),
