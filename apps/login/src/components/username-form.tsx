@@ -88,6 +88,18 @@ export function UsernameForm({
     }
   }, [submit, loginName, organization, submitLoginName]);
 
+  const openRegister = useCallback(() => {
+    const registerParams = new URLSearchParams();
+    if (organization) {
+      registerParams.append("organization", organization);
+    }
+    if (requestId) {
+      registerParams.append("requestId", requestId);
+    }
+
+    router.push("/register?" + registerParams);
+  }, [organization, requestId, router]);
+
   let inputLabel = t("labels.loginname");
   if (loginSettings?.disableLoginWithEmail && loginSettings?.disableLoginWithPhone) {
     inputLabel = t("labels.username");
@@ -114,27 +126,6 @@ export function UsernameForm({
             data-testid="username-text-input"
             suffix={hideSuffix ? undefined : suffix}
           />
-          {allowRegister && (
-            <button
-              className="hover:text-primary-light-500 dark:hover:text-primary-dark-500 text-sm transition-all"
-              onClick={() => {
-                const registerParams = new URLSearchParams();
-                if (organization) {
-                  registerParams.append("organization", organization);
-                }
-                if (requestId) {
-                  registerParams.append("requestId", requestId);
-                }
-
-                router.push("/register?" + registerParams);
-              }}
-              type="button"
-              disabled={loading}
-              data-testid="register-button"
-            >
-              <Translated i18nKey="register" namespace="loginname" />
-            </button>
-          )}
         </div>
 
         {error && (
@@ -142,9 +133,21 @@ export function UsernameForm({
             <Alert>{error}</Alert>
           </div>
         )}
-        <div className="mt-4 flex w-full flex-row items-center">
+        <div className="mt-4 flex w-full flex-row flex-wrap items-center gap-2">
           <BackButton data-testid="back-button" />
           <span className="flex-grow"></span>
+          {allowRegister && (
+            <Button
+              type="button"
+              variant={ButtonVariants.Secondary}
+              className="!border-[#438929] !bg-[#E1F2DB] font-bold !text-[#231F20] hover:opacity-90"
+              disabled={loading}
+              onClick={openRegister}
+              data-testid="register-button"
+            >
+              <Translated i18nKey="registerButton" namespace="loginname" />
+            </Button>
+          )}
           <Button
             data-testid="submit-button"
             type="submit"

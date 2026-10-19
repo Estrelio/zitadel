@@ -23,4 +23,21 @@ describe("UsernameForm", () => {
     );
     expect(getByTestId("username-text-input")).toHaveFocus();
   });
+
+  test("should place the register button in the same row as continue", () => {
+    const { getByTestId } = render(
+      <UsernameForm loginName="" requestId={undefined} loginSettings={undefined} submit={false} allowRegister={true} />,
+    );
+    const registerButton = getByTestId("register-button");
+    const submitButton = getByTestId("submit-button");
+
+    expect(registerButton.parentElement).toBe(submitButton.parentElement);
+  });
+
+  test("should not render the register button when registration is not allowed", () => {
+    const { queryByTestId } = render(
+      <UsernameForm loginName="" requestId={undefined} loginSettings={undefined} submit={false} allowRegister={false} />,
+    );
+    expect(queryByTestId("register-button")).toBeNull();
+  });
 });
