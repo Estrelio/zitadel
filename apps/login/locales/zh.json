@@ -26,6 +26,7 @@
     "title": "欢迎回来！",
     "description": "请输入您的登录信息。",
     "registerButton": "注册",
+    "noAccount": "还没有账号？",
     "submit": "继续",
     "labels": {
       "loginname": "登录名",
