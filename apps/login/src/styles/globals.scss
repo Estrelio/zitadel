@@ -16,6 +16,9 @@
 html {
   --background-color: #ffffff;
   --dark-background-color: #000000;
+
+  // Open Sans has no CJK glyphs, so Chinese text falls back to a system CJK face.
+  font-family: var(--font-open-sans), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
 }
 
 .form-checkbox {
