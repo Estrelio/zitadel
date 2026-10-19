@@ -4,17 +4,17 @@
     "title": "使用 Zitadel 登录"
   },
   "accounts": {
-    "title": "账户",
-    "description": "选择您要使用的账户。",
-    "addAnother": "添加另一个账户",
-    "noResults": "未找到账户",
+    "title": "账号",
+    "description": "选择您要使用的账号。",
+    "addAnother": "添加另一个账号",
+    "noResults": "未找到账号",
     "verified": "已验证",
     "expired": "已过期"
   },
   "logout": {
     "title": "注销",
-    "description": "选择您想注销的账户",
-    "noResults": "未找到账户",
+    "description": "选择您想注销的账号",
+    "noResults": "未找到账号",
     "clear": "注销会话",
     "verifiedAt": "最后活动时间：{time}",
     "success": {
@@ -82,7 +82,7 @@
     },
     "set": {
       "title": "设置密码",
-      "description": "为您的账户设置密码",
+      "description": "为您的账号设置密码",
       "codeSent": "新代码已发送到您的电子邮件地址。",
       "noCodeReceived": "没有收到验证码？",
       "resend": "重发验证码",
@@ -105,7 +105,7 @@
     },
     "change": {
       "title": "更改密码",
-      "description": "为您的账户设置密码",
+      "description": "为您的账号设置密码",
       "submit": "继续",
       "labels": {
         "currentPassword": "当前密码",
@@ -141,7 +141,7 @@
       "couldNotVerifyPassword": "无法验证密码",
       "failedToAuthenticate": "身份验证失败。您已尝试输入密码 {failedAttempts} 次，共允许 {maxPasswordAttempts} 次。{lockoutMessage}",
       "failedToAuthenticateNoLimit": "身份验证失败。",
-      "accountLockedContactAdmin": " 请联系管理员以解锁您的账户",
+      "accountLockedContactAdmin": " 请联系管理员以解锁您的账号",
       "userNotFound": "系统中未找到用户",
       "initialUserNotSupported": "不支持初始用户",
       "userInitialStateNotSupported": "不支持用户初始状态",
@@ -171,17 +171,17 @@
       "description": "登录时发生错误。"
     },
     "linkingError": {
-      "title": "账户链接失败",
-      "description": "链接账户时发生错误。"
+      "title": "账号链接失败",
+      "description": "链接账号时发生错误。"
     },
     "completeRegister": {
       "title": "完成注册",
-      "description": "完成您的账户注册。"
+      "description": "完成您的账号注册。"
     },
     "accountNotFound": {
-      "title": "未找到账户",
-      "description": "我们无法找到与您的身份提供商凭据关联的账户。",
-      "info": "未找到现有账户。请使用现有账户登录或联系您的管理员寻求帮助。",
+      "title": "未找到账号",
+      "description": "我们无法找到与您的身份提供商凭据关联的账号。",
+      "info": "未找到现有账号。请使用现有账号登录或联系您的管理员寻求帮助。",
       "backToLogin": "返回登录"
     },
     "registrationFailed": {
@@ -200,9 +200,9 @@
       "missingIdpInfo": "缺少身份提供商信息",
       "idpNotFound": "未找到身份提供商",
       "linkingNotAllowed": "此身份提供商不允许关联",
-      "linkingFailed": "无法将身份提供商关联到账户",
-      "autoLinkingFailed": "无法自动关联账户",
-      "userCreationFailed": "无法创建用户账户",
+      "linkingFailed": "无法将身份提供商关联到账号",
+      "autoLinkingFailed": "无法自动关联账号",
+      "userCreationFailed": "无法创建用户账号",
       "orgResolutionFailed": "无法确定注册的组织",
       "sessionCreationFailed": "无法创建会话或确定重定向",
       "unknownError": "发生未知错误"
@@ -324,7 +324,7 @@
       "description": "请提供所有必需的数据。"
     },
     "title": "注册",
-    "description": "创建您的 Zitadel 账户。",
+    "description": "创建您的 Zitadel 账号。",
     "noMethodAvailableWarning": "没有可用的认证方法。请联系您的系统管理员。",
     "selectMethod": "选择您想使用的认证方法",
     "agreeTo": "注册即表示您同意条款和条件",
@@ -333,7 +333,7 @@
     "submit": "继续",
     "password": {
       "title": "设置密码",
-      "description": "为您的账户设置密码",
+      "description": "为您的账号设置密码",
       "submit": "继续",
       "labels": {
         "password": "密码",
@@ -460,7 +460,7 @@
       "openid": "验证您的身份。",
       "email": "访问您的电子邮件地址。",
       "profile": "访问您的完整个人资料信息。",
-      "offline_access": "允许离线访问您的账户。"
+      "offline_access": "允许离线访问您的账号。"
     }
   },
   "error": {
