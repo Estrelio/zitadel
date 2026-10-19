@@ -8,7 +8,8 @@ export enum AuthenticationMethod {
   Password = "password",
 }
 
-export const methods = [AuthenticationMethod.Passkey, AuthenticationMethod.Password];
+// Password is listed first so it is the default choice in the registration chooser; passkey stays available as the second option.
+export const methods = [AuthenticationMethod.Password, AuthenticationMethod.Passkey];
 
 export function AuthenticationMethodRadio({
   selected,
