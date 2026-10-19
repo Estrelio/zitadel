@@ -1,4 +1,3 @@
-import { BrandingSettings } from "@zitadel/proto/zitadel/settings/v2/branding_settings_pb";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   BACKGROUND,
@@ -8,6 +7,7 @@ import {
   DARK_TEXT,
   DARK_WARN,
   PRIMARY,
+  PRIMARY_CONTRAST,
   setTheme,
   TEXT,
   WARN,
@@ -97,7 +97,7 @@ describe("color utilities", () => {
 
         expect(color.hex).toMatch(/^#[0-9a-f]{6}$/i);
         expect(color.rgb).toMatch(/^rgb\(/);
-        expect(["#ffffff", "hsla(0, 0%, 0%, 0.87)"]).toContain(color.contrastColor);
+        expect(color.contrastColor).toBe(PRIMARY_CONTRAST);
       });
     });
 
@@ -306,8 +306,8 @@ describe("color utilities", () => {
         lightTheme: {
           backgroundColor: "#ffffff",
           fontColor: TEXT,
-          primaryColor: "#ffeb3b", // Light yellow
-          warnColor: WARN,
+          primaryColor: PRIMARY,
+          warnColor: "#ffeb3b", // Light yellow
         },
         darkTheme: {
           backgroundColor: DARK_BACKGROUND,
@@ -320,7 +320,7 @@ describe("color utilities", () => {
       const result = computeMap(branding, false);
 
       // Light colors should have dark contrast
-      const lightShades = result.primary.filter((c) => ["50", "100", "200", "A100"].includes(c.name));
+      const lightShades = result.warn.filter((c) => ["50", "100", "200", "A100"].includes(c.name));
 
       lightShades.forEach((color) => {
         expect(color.contrastColor).toBe("hsla(0, 0%, 0%, 0.87)");
@@ -332,8 +332,8 @@ describe("color utilities", () => {
         lightTheme: {
           backgroundColor: BACKGROUND,
           fontColor: TEXT,
-          primaryColor: "#1a237e", // Dark blue
-          warnColor: WARN,
+          primaryColor: PRIMARY,
+          warnColor: "#1a237e", // Dark blue
         },
         darkTheme: {
           backgroundColor: DARK_BACKGROUND,
@@ -346,7 +346,7 @@ describe("color utilities", () => {
       const result = computeMap(branding, false);
 
       // Dark colors should have light contrast
-      const darkShades = result.primary.filter((c) => ["800", "900"].includes(c.name));
+      const darkShades = result.warn.filter((c) => ["800", "900"].includes(c.name));
 
       darkShades.forEach((color) => {
         expect(color.contrastColor).toBe("#ffffff");
@@ -386,28 +386,13 @@ describe("color utilities", () => {
       expect(hasDarkPrimary).toBe(true);
     });
 
-    it("should set theme with custom policy colors", () => {
-      const customPolicy = {
-        lightTheme: {
-          backgroundColor: "#f5f5f5",
-          fontColor: "#212121",
-          primaryColor: "#ff6b6b",
-          warnColor: "#feca57",
-        },
-        darkTheme: {
-          backgroundColor: "#1a1a1a",
-          fontColor: "#fafafa",
-          primaryColor: "#ff8b8b",
-          warnColor: "#fed57",
-        },
-      } as BrandingSettings;
-
-      setTheme(mockDocument, customPolicy);
-
-      expect(mockDocument.documentElement.style.setProperty).toHaveBeenCalled();
+    it("should ignore branding policy colors and apply GoVeggie colors", () => {
+      setTheme(mockDocument);
 
       const calls = mockDocument.documentElement.style.setProperty.mock.calls;
-      expect(calls.length).toBeGreaterThan(0);
+      expect(calls).toContainEqual(["--theme-light-primary-500", "#6abf4b"]);
+      expect(calls).toContainEqual(["--theme-dark-primary-500", "#6abf4b"]);
+      expect(calls).toContainEqual(["--theme-light-primary-contrast-500", PRIMARY_CONTRAST]);
     });
 
     it("should set CSS custom properties for all color shades", () => {
@@ -480,26 +465,6 @@ describe("color utilities", () => {
       });
     });
 
-    it("should use fallback colors when policy has partial values", () => {
-      const partialPolicy = {
-        lightTheme: {
-          primaryColor: "#ff0000",
-        },
-      } as BrandingSettings;
-
-      setTheme(mockDocument, partialPolicy);
-
-      expect(mockDocument.documentElement.style.setProperty).toHaveBeenCalled();
-
-      const calls = mockDocument.documentElement.style.setProperty.mock.calls;
-      expect(calls.length).toBeGreaterThan(0);
-    });
-
-    it("should handle undefined policy gracefully", () => {
-      expect(() => setTheme(mockDocument, undefined)).not.toThrow();
-      expect(mockDocument.documentElement.style.setProperty).toHaveBeenCalled();
-    });
-
     it("should set valid hex color values", () => {
       setTheme(mockDocument);
 
@@ -551,8 +516,12 @@ describe("color utilities", () => {
       expect(DARK_TEXT).toMatch(/^#[0-9a-f]{6}$/i);
     });
 
+    it("should use GoVeggie green for primary in both themes", () => {
+      expect(PRIMARY).toBe("#6ABF4B");
+      expect(DARK_PRIMARY).toBe("#6ABF4B");
+    });
+
     it("should have distinct colors for light and dark themes", () => {
-      expect(PRIMARY).not.toBe(DARK_PRIMARY);
       expect(WARN).not.toBe(DARK_WARN);
       expect(BACKGROUND).not.toBe(DARK_BACKGROUND);
       expect(TEXT).not.toBe(DARK_TEXT);
