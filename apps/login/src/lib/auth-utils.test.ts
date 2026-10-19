@@ -5,9 +5,12 @@ describe("auth-utils", () => {
   describe("isValidLanguage", () => {
     it("should return true for valid language codes", () => {
       expect(isValidLanguage("en")).toBe(true);
-      expect(isValidLanguage("de")).toBe(true);
-      expect(isValidLanguage("fr")).toBe(true);
       expect(isValidLanguage("zh")).toBe(true);
+    });
+
+    it("should return false for languages GoVeggie does not ship", () => {
+      expect(isValidLanguage("de")).toBe(false);
+      expect(isValidLanguage("fr")).toBe(false);
     });
 
     it("should return false for invalid language codes", () => {
@@ -18,7 +21,7 @@ describe("auth-utils", () => {
 
     it("should be case-insensitive", () => {
       expect(isValidLanguage("EN")).toBe(true);
-      expect(isValidLanguage("De")).toBe(true);
+      expect(isValidLanguage("ZH")).toBe(true);
     });
   });
 
@@ -29,18 +32,18 @@ describe("auth-utils", () => {
     });
 
     it("should extract valid language from simple locale codes", () => {
-      expect(getValidLocaleFromUILocales(["de"])).toBe("de");
-      expect(getValidLocaleFromUILocales(["en", "de"])).toBe("en");
+      expect(getValidLocaleFromUILocales(["zh"])).toBe("zh");
+      expect(getValidLocaleFromUILocales(["en", "zh"])).toBe("en");
     });
 
     it("should extract language code from language tags", () => {
-      expect(getValidLocaleFromUILocales(["de-CH"])).toBe("de");
+      expect(getValidLocaleFromUILocales(["zh-TW"])).toBe("zh");
       expect(getValidLocaleFromUILocales(["en-US"])).toBe("en");
       expect(getValidLocaleFromUILocales(["zh-CN"])).toBe("zh");
     });
 
     it("should return first valid language when multiple provided", () => {
-      expect(getValidLocaleFromUILocales(["xx-XX", "de", "en"])).toBe("de");
+      expect(getValidLocaleFromUILocales(["xx-XX", "zh", "en"])).toBe("zh");
     });
 
     it("should return null when no valid languages found", () => {
@@ -48,7 +51,7 @@ describe("auth-utils", () => {
     });
 
     it("should handle case-insensitive matching", () => {
-      expect(getValidLocaleFromUILocales(["DE"])).toBe("de");
+      expect(getValidLocaleFromUILocales(["ZH"])).toBe("zh");
       expect(getValidLocaleFromUILocales(["En-US"])).toBe("en");
     });
   });
