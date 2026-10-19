@@ -26,6 +26,7 @@
     "title": "Welcome back!",
     "description": "Enter your login details.",
     "registerButton": "Register",
+    "noAccount": "Don't have an account?",
     "submit": "Continue",
     "labels": {
       "loginname": "Loginname",

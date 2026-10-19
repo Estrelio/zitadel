@@ -136,18 +136,6 @@ export function UsernameForm({
         <div className="mt-4 flex w-full flex-row flex-wrap items-center gap-2">
           <BackButton data-testid="back-button" />
           <span className="flex-grow"></span>
-          {allowRegister && (
-            <Button
-              type="button"
-              variant={ButtonVariants.Secondary}
-              className="!border-[#438929] !bg-[#E1F2DB] font-bold !text-[#231F20] hover:opacity-90"
-              disabled={loading}
-              onClick={openRegister}
-              data-testid="register-button"
-            >
-              <Translated i18nKey="registerButton" namespace="loginname" />
-            </Button>
-          )}
           <Button
             data-testid="submit-button"
             type="submit"
@@ -160,6 +148,20 @@ export function UsernameForm({
             <Translated i18nKey="submit" namespace="loginname" />
           </Button>
         </div>
+        {allowRegister && (
+          <div className="mt-10 flex w-full flex-row flex-wrap items-center justify-center gap-2">
+            <Translated i18nKey="noAccount" namespace="loginname" className="ztdl-p" />
+            <Button
+              type="button"
+              variant={ButtonVariants.Secondary}
+              disabled={loading}
+              onClick={openRegister}
+              data-testid="register-button"
+            >
+              <Translated i18nKey="registerButton" namespace="loginname" />
+            </Button>
+          </div>
+        )}
       </form>
     </>
   );
