@@ -22,4 +22,9 @@ describe("PasswordForm", () => {
     const { getByTestId } = render(<PasswordForm loginSettings={undefined} loginName="test@example.com" />);
     expect(getByTestId("password-text-input")).toHaveFocus();
   });
+
+  test("should mark the password input for current-password AutoFill", () => {
+    const { getByTestId } = render(<PasswordForm loginSettings={undefined} loginName="test@example.com" />);
+    expect(getByTestId("password-text-input")).toHaveAttribute("autocomplete", "current-password");
+  });
 });
